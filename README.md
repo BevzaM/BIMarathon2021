@@ -4,7 +4,7 @@ Welcome to the __IBRD Data Analysis Project__.
 
 This project will be of interest to people who want to understand the work of the ___"International Bank for Reconstruction and Development"___ ([IBRD](https://en.wikipedia.org/wiki/International_Bank_for_Reconstruction_and_Development)) and find some answers by analyzing data on loans and grants issued.
 
-# The questions we want to answer (for now):
+# Business Questions:
 * What is the volume of loans and grants issued, as well as their ratio?
 * Which countries were given these loans and in what volume?
 * How much funds are provided and how much of these funds are used?
