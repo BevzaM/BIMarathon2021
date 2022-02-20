@@ -1,42 +1,4 @@
 
--- Create Backup table
-create table bi_marathon_ibrd_Backup2022
-(
-Region varchar(36)
-,Country varchar(36)
-,Country_Code varchar(3)
-,Borrower varchar(72)
-,Guarantor varchar(72)
-,Guarantor_Country_Code varchar(3)
-,Loan_Number varchar(36)
-,Loan_Type varchar(36)
-,Loan_Status varchar(36)
-,Project_Name varchar(72)
-,Project_ID varchar(36)
-,Original_Principal_Amount float
-,Undisbursed_Amount float
-,Disbursed_Amount float
-,Cancelled_Amount float
-,Repaid_to_IBRD float
-,Due_to_IBRD float
-,Exchange_Adjustment float
-,Borrowers_Obligation float
-,Sold_3rd_Party float
-,Repaid_3rd_Party float
-,Loans_Held float
-,Interest_Rate float
-,First_Repayment_Date varchar(36)
-,Last_Repayment_Date varchar(36)
-,Agreement_Signing_Date varchar(36)
-,Board_Approval_Date varchar(36)
-,Effective_Date varchar(36)
-,Close_Date varchar(36)
-,Last_Disbursement_Date varchar(36)
-);
-
-INSERT INTO ibrd_table_temp
-  SELECT *
-  FROM bi_marathon_ibrd_backup2022;
   
   -- check table from Null values
   Select *
@@ -111,12 +73,15 @@ Region varchar(36)
 ,Close_Date varchar(36)
 ,Last_Disbursement_Date varchar(36)
 );
+
 -- ONLY Use this script If you need to truncate your table (remove the values in your table)
 truncate temp_table;
+
 -- select all rows from tem_table
 select * 
 from ibrd_table_temp
 ;
+
 -- create #1 dimention "Dim_Location"
 create table Dim_Location (
 	Location_ID int not null auto_increment
@@ -126,6 +91,7 @@ create table Dim_Location (
     ,primary key (Location_ID)
     )
  ;
+
 -- create #2 dimention "Dim_Сustomer"
 create table Dim_Сustomer 
 (
@@ -136,6 +102,7 @@ create table Dim_Сustomer
     ,primary key (Сustomer_ID)
     )
 ;
+
 -- create #3 dimention "Dim_Loan"
 create table Dim_Loan
 (
@@ -147,6 +114,7 @@ create table Dim_Loan
     ,primary key (Loan_Number)
     )
 ;
+
 -- create #4 "Record_of_loans" table
 create table Record_of_loans
 (
@@ -179,17 +147,21 @@ create table Record_of_loans
     , FOREIGN KEY (Loan_Number) REFERENCES Dim_Loan (Loan_Number) ON DELETE SET NULL
     )
 ;
+
 -- uploading #1 "dim_loan" table
 INSERT IGNORE INTO dim_loan (Loan_Number, Loan_Type, Loan_Status, Project_Name, Project_ID)
 SELECT DISTINCT Loan_Number, Loan_Type, Loan_Status, Project_Name, Project_ID FROM ibrd_table_temp
 ;
+
 select *
 from dim_loan
 ;
+
 -- uploading #2 "dim_location" table
 INSERT IGNORE INTO dim_location (Region, Country, Country_Code)
 SELECT DISTINCT Region, Country, Country_Code FROM ibrd_table_temp
 ;
+
 select *
 from dim_location;
 
@@ -197,9 +169,11 @@ from dim_location;
 INSERT IGNORE INTO dim_сustomer (Borrower, Guarantor, Guarantor_Country_Code)
 SELECT DISTINCT Borrower, Guarantor, Guarantor_Country_Code FROM ibrd_table_temp
 ;
+
 select *
 from dim_сustomer
 ;
+
 -- uploading #4  "record_of_loans" table
 INSERT IGNORE INTO record_of_loans (
       Location_ID, Сustomer_ID, Loan_Number
@@ -236,7 +210,7 @@ JOIN dim_location ON dim_location.Country_Code = tmp.Country_Code
 JOIN dim_сustomer ON dim_сustomer.Borrower = tmp.Borrower
 ;
 
--- Check from duplicate Rows using Group By and Having clause
+-- Check from duplicate Rows using Group By and Having clause in dim
 SELECT distinct
   Loan_Number
 , Loan_Type
@@ -253,13 +227,40 @@ group by
 , Project_ID
 Having Count(*) > 1;
 
--- test # 1 !! ADD duplicate Rows
+SELECT distinct
+  Borrower
+, Guarantor
+, Guarantor_Country_Code
+    , count(*) as CNT
+FROM dim_сustomer
+group by
+ Borrower
+, Guarantor
+, Guarantor_Country_Code
+Having Count(*) > 1;
+
+SELECT distinct
+  Region
+, Country
+, Country_Code
+    , count(*) as CNT
+FROM dim_location
+group by
+ Region
+, Country
+, Country_Code
+Having Count(*) > 1;
+
+-- test # 1!! ADD duplicate Rows
 INSERT INTO dim_location (Region, Country , Country_Code)
 VALUES ('AFRICA EAST' ,'Angola', 'AO');
+INSERT INTO dim_location (Region, Country , Country_Code)
+VALUES ('AFRICA EAST' ,'Kenya', 'KE');
 
--- test # 1!!! Check from duplicate Rows using Group By and Having clause
+-- test # 1.1 !!! Check from duplicate Rows using Group By and Having clause
 SELECT distinct
-Region
+Location_ID
+,Region
 , Country
 , Country_Code
     , count(*) as CNT
@@ -270,44 +271,171 @@ Region
 , Country_Code
 Having CNT > 1;
 
-Select *
-From dim_location
-Where Region = 'AFRICA EAST' and Country = 'Angola' and Country_Code = 'AO';
+-- Check #1.2 I am using the SQL MIN function to calculate the minimum Location_ID of each row of data and then excluding it to leave only duplicates
+  SELECT *
+    FROM dim_location
+    WHERE Location_ID NOT IN
+    (
+        SELECT MIN(Location_ID)
+        FROM dim_location
+        GROUP BY Region
+, Country
+, Country_Code
+    )
+    Order by Country; 
 
-
-delete 
-From dim_location
-Where Location_ID = 257;
+--- does not work
+DELETE FROM dim_location
+    WHERE Location_ID NOT IN
+    (
+        SELECT MIN(Location_ID)
+        FROM dim_location
+        GROUP BY Region
+, Country
+, Country_Code
+    );
+    
+    --- --- does not work
+DELETE FROM dim_location
+    WHERE Location_ID 
+    IN (  
+    SELECT Location_ID 
+    FROM 
+    dim_location  as temp2
+    WHERE Location_ID NOT IN
+    (
+        SELECT MIN(Location_ID)
+        FROM dim_location  as temp1
+        GROUP BY Region
+, Country
+, Country_Code
+    ));
+    
+ 
 
 -- Check from duplicate Rows using Common Table Expressions (CTE)
-With CTE (Loan_Number , Loan_Type , Loan_Status, Project_Name, Project_ID, duplicatecount)
-    AS (select Loan_Number , Loan_Type , Loan_Status, Project_Name, Project_ID,
-    ROW_NUMBER() OVER (partition BY Loan_Number , Loan_Type , Loan_Status, Project_Name, Project_ID 
-    ORDER By Loan_Number) AS duplicatecount
-    From dim_loan)
-    SELECT *
-    FROM CTE
-    WHERE duplicatecount > 1;
-
--- test # 2 !! ADD duplicate Rows
-INSERT INTO dim_location (Region, Country , Country_Code)
-VALUES ('AFRICA EAST' ,'Angola', 'AO');
--- SQL delete duplicate Rows using Common Table Expressions (CTE)
 With CTE (Location_ID, Region , Country, Country_Code, duplicatecount)
     AS (select Location_ID, Region , Country, Country_Code,
     ROW_NUMBER() OVER(partition BY Region , Country, Country_Code 
     ORDER By Location_ID) AS duplicatecount
     From dim_location)
 select *
- FROM CTE;
+ FROM CTE
+ WHERE duplicatecount > 1;  
+ 
+
+-- test # 2 !! ADD duplicate Rows
+INSERT INTO dim_location (Region, Country , Country_Code)
+VALUES ('AFRICA EAST' ,'Angola', 'AO');
+-- SQL delete duplicate Rows using Common Table Expressions (CTE)
+
+-- Option 2: Remove Duplicate Rows Using ROW_NUMBER()
+
     
+    DELETE FROM dim_location
+    WHERE Location_ID 
+    IN(  
+    SELECT Location_ID 
+    FROM 
+    (SELECT Location_ID,  ROW_NUMBER()   
+       OVER (PARTITION BY Region , Country, Country_Code ORDER BY Location_ID) AS row_num   
+    FROM dim_location) AS temp_table 
+    WHERE row_num>1  
+);  
+-- Use distinct keyword to see unic region
+select distinct Region
+From dim_location;
+
+-- Using the Case when function to create a new column to understand information from a different angle
+SELECT Count(*) as number_of_countries,
+Case 
+When Region in ('AFRICA EAST', 'AFRICA WEST', 'MIDDLE EAST AND NORTH AFRICA') Then 'Africa'
+When Region in ('EAST ASIA AND PACIFIC', 'EUROPE AND CENTRAL ASIA', 'SOUTH ASIA','OTHER') Then 'Eurasia'
+When Region = 'LATIN AMERICA AND CARIBBEAN' Then 'America'
+End As 'continents'
+From dim_location
+Group By Continents;
+
+-- test #3  Using the COALESCE function if we have  Null at column 
+INSERT INTO dim_location (Region, Country , Country_Code)
+VALUES ('AFRICA EAST' ,null, 'AO');
+INSERT INTO dim_location (Region, Country , Country_Code)
+VALUES ('AFRICA EAST' ,null, null);
+
+
+select *
+From dim_location
+Where Region is null or
+Country is null or
+Country_Code is null;
+
+Select Location_ID, COALESCE(Region, 'N/A') , COALESCE(Country, 'N/A'), COALESCE(Country_Code, 'N/A')
+From dim_location
+Where Country is null;
+
+update dim_location
+SET Country = COALESCE(Country, 'N/A'),
+ Region = COALESCE(Region, 'N/A'), 
+ Country_Code = COALESCE(Country_Code, 'N/A')
+Where 
+Country is null or 
+Region is null or
+Country_Code is null;
+
+Select *
+from dim_location
+    Where 
+    Country = 'N/A' or 
+    Region = 'N/A' or
+Country_Code = 'N/A';
     
-    With CTE (Location_ID, Region , Country, Country_Code, duplicatecount)
-    AS (select Location_ID, Region , Country, Country_Code,
-    ROW_NUMBER() OVER(partition BY Region , Country, Country_Code 
-    ORDER By Location_ID) AS duplicatecount
-    From dim_location)
-delete FROM CTE
-    WHERE duplicatecount > 1;
-    
-    
+Delete from dim_location
+    Where 
+    Country = 'N/A' or 
+    Region = 'N/A' or
+Country_Code = 'N/A';
+
+-- test NULLIF
+INSERT INTO dim_location (Region, Country , Country_Code)
+VALUES ('AFRICA EAST' ,'N/A', 'AO');
+INSERT INTO dim_location (Region, Country , Country_Code)
+VALUES ('AFRICA EAST' ,'N/A', 'N/A');
+
+
+select *
+From dim_location
+Where Region = 'N/A' or
+Country  = 'N/A' or
+Country_Code  = 'N/A';
+
+update dim_location
+SET Country = NULLIF(Country, 'N/A'),
+ Region = NULLIF(Region, 'N/A'), 
+ Country_Code = NULLIF(Country_Code, 'N/A')
+Where Region = 'N/A' or
+Country  = 'N/A' or
+Country_Code  = 'N/A';
+
+select *
+From dim_location
+Where Region is null or
+Country is null or
+Country_Code is null;
+
+Delete From dim_location
+Where Region is null or
+Country is null or
+Country_Code is null;
+
+-- Examples of MySQL GREATEST() and LEAST()
+Select Record_ID, Loan_Number, GREATEST(Original_Principal_Amount, Undisbursed_Amount, Disbursed_Amount) as max_value,
+ LEAST(Original_Principal_Amount, Undisbursed_Amount, Disbursed_Amount)  as min_value
+ From record_of_loans;
+ 
+ Select Record_ID, Loan_Number, GREATEST(102000000, Original_Principal_Amount) as TOP_value
+ From record_of_loans;
+ 
+  Select distinct GREATEST(102000000, Original_Principal_Amount) as TOP_value
+ From record_of_loans
+ Order BY TOP_value asc
+
