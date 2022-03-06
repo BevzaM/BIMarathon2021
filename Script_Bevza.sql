@@ -1,6 +1,46 @@
 
+ 
   
-  -- check table from Null values
+ -- create database BI_Marathon_IBRD
+  create database BI_Marathon_IBRD;
+Use BI_Marathon_IBRD;
+
+-- Creating a temp table to loud our CSV file
+create table IBRD_table_temp
+(
+Region varchar(36)
+,Country varchar(36)
+,Country_Code varchar(3)
+,Borrower varchar(72)
+,Guarantor varchar(72)
+,Guarantor_Country_Code varchar(3)
+,Loan_Number varchar(36)
+,Loan_Type varchar(36)
+,Loan_Status varchar(36)
+,Project_Name varchar(72)
+,Project_ID varchar(36)
+,Original_Principal_Amount decimal (20,2)
+,Undisbursed_Amount decimal (20,2)
+,Disbursed_Amount decimal (20,2)
+,Cancelled_Amount decimal (20,2)
+,Repaid_to_IBRD decimal (20,2)
+,Due_to_IBRD decimal (20,2)
+,Exchange_Adjustment decimal (20,2)
+,Borrowers_Obligation decimal (20,2)
+,Sold_3rd_Party decimal (20,2)
+,Repaid_3rd_Party decimal (20,2)
+,Loans_Held decimal (20,2)
+,Interest_Rate decimal (6,4)
+,First_Repayment_Date varchar(36)
+,Last_Repayment_Date varchar(36)
+,Agreement_Signing_Date varchar(36)
+,Board_Approval_Date varchar(36)
+,Effective_Date varchar(36)
+,Close_Date varchar(36)
+,Last_Disbursement_Date varchar(36)
+);
+
+ -- check table from Null values
   Select *
 From ibrd_table_temp
 Where 
@@ -34,54 +74,15 @@ Board_Approval_Date is null or
 Effective_Date is null or
 Close_Date is null or
 Last_Disbursement_Date is null;
-  
- -- create database BI_Marathon_IBRD
-  create database BI_Marathon_IBRD;
-Use BI_Marathon_IBRD;
 
--- Creating a temp table to loud our CSV file
-create table IBRD_table_temp
-(
-Region varchar(36)
-,Country varchar(36)
-,Country_Code varchar(3)
-,Borrower varchar(72)
-,Guarantor varchar(72)
-,Guarantor_Country_Code varchar(3)
-,Loan_Number varchar(36)
-,Loan_Type varchar(36)
-,Loan_Status varchar(36)
-,Project_Name varchar(72)
-,Project_ID varchar(36)
-,Original_Principal_Amount float
-,Undisbursed_Amount float
-,Disbursed_Amount float
-,Cancelled_Amount float
-,Repaid_to_IBRD float
-,Due_to_IBRD float
-,Exchange_Adjustment float
-,Borrowers_Obligation float
-,Sold_3rd_Party float
-,Repaid_3rd_Party float
-,Loans_Held float
-,Interest_Rate float
-,First_Repayment_Date varchar(36)
-,Last_Repayment_Date varchar(36)
-,Agreement_Signing_Date varchar(36)
-,Board_Approval_Date varchar(36)
-,Effective_Date varchar(36)
-,Close_Date varchar(36)
-,Last_Disbursement_Date varchar(36)
-);
 
 -- ONLY Use this script If you need to truncate your table (remove the values in your table)
-truncate temp_table;
+truncate ibrd_table_temp;
 
 -- select all rows from tem_table
 select * 
 from ibrd_table_temp
 ;
-
 -- create #1 dimention "Dim_Location"
 create table Dim_Location (
 	Location_ID int not null auto_increment
@@ -92,18 +93,7 @@ create table Dim_Location (
     )
  ;
 
--- create #2 dimention "Dim_Сustomer"
-create table Dim_Сustomer 
-(
-	Сustomer_ID int not null auto_increment
-    ,Borrower varchar(72)
-    ,Guarantor varchar(72)
-    ,Guarantor_Country_Code varchar(3)
-    ,primary key (Сustomer_ID)
-    )
-;
-
--- create #3 dimention "Dim_Loan"
+-- create #2 dimention "Dim_Loan"
 create table Dim_Loan
 (
 	 Loan_Number varchar(36) not null
@@ -111,29 +101,30 @@ create table Dim_Loan
     ,Loan_Status varchar(36)
     ,Project_Name varchar(72)
     ,Project_ID varchar(36)
+	,Borrower varchar(72)
+    ,Guarantor varchar(72)
+    ,Guarantor_Country_Code varchar(3)
     ,primary key (Loan_Number)
     )
 ;
-
--- create #4 "Record_of_loans" table
+-- create #3 "Record_of_loans" table
 create table Record_of_loans
 (
 	Record_ID int not null auto_increment
     ,Location_ID int
-    ,Сustomer_ID int
     ,Loan_Number varchar(36)
-    ,Original_Principal_Amount float
-    ,Undisbursed_Amount float
-    ,Disbursed_Amount float 
-    ,Cancelled_Amount float
-    ,Repaid_to_IBRD float
-    ,Due_to_IBRD float
-    ,Exchange_Adjustment float
-    ,Borrowers_Obligation float
-    ,Sold_3rd_Party float
-    ,Repaid_3rd_Party float
-    ,Loans_Held float
-    ,Interest_Rate float
+    ,Original_Principal_Amount decimal (20,2)
+    ,Undisbursed_Amount decimal (20,2)
+    ,Disbursed_Amount decimal (20,2)
+    ,Cancelled_Amount decimal (20,2)
+    ,Repaid_to_IBRD decimal (20,2)
+    ,Due_to_IBRD decimal (20,2)
+    ,Exchange_Adjustment decimal (20,2)
+    ,Borrowers_Obligation decimal (20,2)
+    ,Sold_3rd_Party decimal (20,2)
+    ,Repaid_3rd_Party decimal (20,2)
+    ,Loans_Held decimal (20,2)
+    ,Interest_Rate decimal (6,4)
     ,First_Repayment_Date varchar(36)
     ,Last_Repayment_Date varchar(36)
     ,Agreement_Signing_Date varchar(36)
@@ -143,47 +134,32 @@ create table Record_of_loans
     ,Last_Disbursement_Date varchar(36)
     , primary key (Record_ID)
     , FOREIGN KEY (Location_ID) REFERENCES dim_location (Location_ID) ON DELETE SET NULL
-    , FOREIGN KEY (Сustomer_ID) REFERENCES Dim_Сustomer (Сustomer_ID) ON DELETE SET NULL
     , FOREIGN KEY (Loan_Number) REFERENCES Dim_Loan (Loan_Number) ON DELETE SET NULL
     )
 ;
-
 -- uploading #1 "dim_loan" table
-INSERT IGNORE INTO dim_loan (Loan_Number, Loan_Type, Loan_Status, Project_Name, Project_ID)
-SELECT DISTINCT Loan_Number, Loan_Type, Loan_Status, Project_Name, Project_ID FROM ibrd_table_temp
+INSERT IGNORE INTO dim_loan (Loan_Number, Loan_Type, Loan_Status, Project_Name, Project_ID, Borrower, Guarantor, Guarantor_Country_Code)
+SELECT DISTINCT Loan_Number, Loan_Type, Loan_Status, Project_Name, Project_ID, Borrower, Guarantor, Guarantor_Country_Code FROM ibrd_table_temp
 ;
-
 select *
 from dim_loan
 ;
-
 -- uploading #2 "dim_location" table
 INSERT IGNORE INTO dim_location (Region, Country, Country_Code)
 SELECT DISTINCT Region, Country, Country_Code FROM ibrd_table_temp
 ;
-
 select *
 from dim_location;
 
--- uploading #3 "dim_сustomer" table
-INSERT IGNORE INTO dim_сustomer (Borrower, Guarantor, Guarantor_Country_Code)
-SELECT DISTINCT Borrower, Guarantor, Guarantor_Country_Code FROM ibrd_table_temp
-;
-
-select *
-from dim_сustomer
-;
-
 -- uploading #4  "record_of_loans" table
 INSERT IGNORE INTO record_of_loans (
-      Location_ID, Сustomer_ID, Loan_Number
+      Location_ID, Loan_Number
     , Original_Principal_Amount, Undisbursed_Amount, Disbursed_Amount, Cancelled_Amount, Repaid_to_IBRD, Due_to_IBRD
     , Exchange_Adjustment, Borrowers_Obligation, Sold_3rd_Party, Repaid_3rd_Party, Loans_Held, Interest_Rate
     , First_Repayment_Date, Last_Repayment_Date, Agreement_Signing_Date, Board_Approval_Date
     , Effective_Date, Close_Date, Last_Disbursement_Date)
 SELECT distinct
       dim_location.Location_ID
-    , dim_сustomer.Сustomer_ID
     , dim_loan.Loan_Number
     , tmp.Original_Principal_Amount
     , tmp.Undisbursed_Amount
@@ -207,16 +183,65 @@ SELECT distinct
 FROM ibrd_table_temp AS tmp
 JOIN dim_loan ON dim_loan.Loan_Number = tmp.Loan_Number
 JOIN dim_location ON dim_location.Country_Code = tmp.Country_Code
-JOIN dim_сustomer ON dim_сustomer.Borrower = tmp.Borrower
 ;
 
 -- Check from duplicate Rows using Group By and Having clause in dim
-SELECT distinct
+SELECT 
+  Loan_Number
+    ,Original_Principal_Amount
+    ,Undisbursed_Amount
+    ,Disbursed_Amount
+    ,Cancelled_Amount
+    ,Repaid_to_IBRD
+    ,Due_to_IBRD
+    ,Exchange_Adjustment
+    ,Borrowers_Obligation
+    ,Sold_3rd_Party
+    ,Repaid_3rd_Party
+    ,Loans_Held
+    ,Interest_Rate
+    ,First_Repayment_Date
+    ,Last_Repayment_Date
+    ,Agreement_Signing_Date
+    ,Board_Approval_Date
+    ,Effective_Date
+    ,Close_Date
+    ,Last_Disbursement_Date
+    , count(*) as CNT
+FROM record_of_loans
+group by 
+  Loan_Number
+    ,Original_Principal_Amount
+    ,Undisbursed_Amount
+    ,Disbursed_Amount
+    ,Cancelled_Amount
+    ,Repaid_to_IBRD
+    ,Due_to_IBRD
+    ,Exchange_Adjustment
+    ,Borrowers_Obligation
+    ,Sold_3rd_Party
+    ,Repaid_3rd_Party
+    ,Loans_Held
+    ,Interest_Rate
+    ,First_Repayment_Date
+    ,Last_Repayment_Date
+    ,Agreement_Signing_Date
+    ,Board_Approval_Date
+    ,Effective_Date
+    ,Close_Date
+    ,Last_Disbursement_Date
+Having Count(*) > 1;
+
+
+SELECT 
   Loan_Number
 , Loan_Type
 , Loan_Status
 , Project_Name
 , Project_ID
+, Borrower
+, Guarantor
+, Guarantor_Country_Code
     , count(*) as CNT
 FROM dim_loan
 group by 
@@ -225,21 +250,13 @@ group by
 , Loan_Status
 , Project_Name
 , Project_ID
-Having Count(*) > 1;
-
-SELECT distinct
-  Borrower
-, Guarantor
-, Guarantor_Country_Code
-    , count(*) as CNT
-FROM dim_сustomer
-group by
- Borrower
+, Borrower
 , Guarantor
 , Guarantor_Country_Code
 Having Count(*) > 1;
 
-SELECT distinct
+
+SELECT 
   Region
 , Country
 , Country_Code
@@ -250,6 +267,7 @@ group by
 , Country
 , Country_Code
 Having Count(*) > 1;
+
 
 -- test # 1!! ADD duplicate Rows
 INSERT INTO dim_location (Region, Country , Country_Code)
@@ -284,34 +302,6 @@ Having CNT > 1;
     )
     Order by Country; 
 
---- does not work
-DELETE FROM dim_location
-    WHERE Location_ID NOT IN
-    (
-        SELECT MIN(Location_ID)
-        FROM dim_location
-        GROUP BY Region
-, Country
-, Country_Code
-    );
-    
-    --- --- does not work
-DELETE FROM dim_location
-    WHERE Location_ID 
-    IN (  
-    SELECT Location_ID 
-    FROM 
-    dim_location  as temp2
-    WHERE Location_ID NOT IN
-    (
-        SELECT MIN(Location_ID)
-        FROM dim_location  as temp1
-        GROUP BY Region
-, Country
-, Country_Code
-    ));
-    
- 
 
 -- Check from duplicate Rows using Common Table Expressions (CTE)
 With CTE (Location_ID, Region , Country, Country_Code, duplicatecount)
@@ -324,14 +314,8 @@ select *
  WHERE duplicatecount > 1;  
  
 
--- test # 2 !! ADD duplicate Rows
-INSERT INTO dim_location (Region, Country , Country_Code)
-VALUES ('AFRICA EAST' ,'Angola', 'AO');
--- SQL delete duplicate Rows using Common Table Expressions (CTE)
 
--- Option 2: Remove Duplicate Rows Using ROW_NUMBER()
-
-    
+-- Option : Remove Duplicate Rows Using ROW_NUMBER()
     DELETE FROM dim_location
     WHERE Location_ID 
     IN(  
@@ -342,11 +326,12 @@ VALUES ('AFRICA EAST' ,'Angola', 'AO');
     FROM dim_location) AS temp_table 
     WHERE row_num>1  
 );  
+
 -- Use distinct keyword to see unic region
 select distinct Region
 From dim_location;
 
--- Using the Case when function to create a new column to understand information from a different angle
+-- Using the "Case when" function to create a new column to understand information from a different angle
 SELECT Count(*) as number_of_countries,
 Case 
 When Region in ('AFRICA EAST', 'AFRICA WEST', 'MIDDLE EAST AND NORTH AFRICA') Then 'Africa'
@@ -362,17 +347,19 @@ VALUES ('AFRICA EAST' ,null, 'AO');
 INSERT INTO dim_location (Region, Country , Country_Code)
 VALUES ('AFRICA EAST' ,null, null);
 
-
+-- Check table 
 select *
 From dim_location
 Where Region is null or
 Country is null or
 Country_Code is null;
 
+-- change null from 'N/A'
 Select Location_ID, COALESCE(Region, 'N/A') , COALESCE(Country, 'N/A'), COALESCE(Country_Code, 'N/A')
 From dim_location
 Where Country is null;
 
+-- change null from 'N/A'
 update dim_location
 SET Country = COALESCE(Country, 'N/A'),
  Region = COALESCE(Region, 'N/A'), 
@@ -382,32 +369,35 @@ Country is null or
 Region is null or
 Country_Code is null;
 
+-- Check 'N/A'
 Select *
 from dim_location
     Where 
     Country = 'N/A' or 
     Region = 'N/A' or
 Country_Code = 'N/A';
-    
+
+ -- delete    
 Delete from dim_location
-    Where 
+Where
     Country = 'N/A' or 
     Region = 'N/A' or
 Country_Code = 'N/A';
 
--- test NULLIF
+-- test NULLIF : INSERT test row data
 INSERT INTO dim_location (Region, Country , Country_Code)
 VALUES ('AFRICA EAST' ,'N/A', 'AO');
 INSERT INTO dim_location (Region, Country , Country_Code)
 VALUES ('AFRICA EAST' ,'N/A', 'N/A');
 
-
+-- check table
 select *
 From dim_location
 Where Region = 'N/A' or
 Country  = 'N/A' or
 Country_Code  = 'N/A';
 
+-- change 'N/A' to NULL
 update dim_location
 SET Country = NULLIF(Country, 'N/A'),
  Region = NULLIF(Region, 'N/A'), 
@@ -416,6 +406,7 @@ Where Region = 'N/A' or
 Country  = 'N/A' or
 Country_Code  = 'N/A';
 
+-- check NULL
 select *
 From dim_location
 Where Region is null or
@@ -431,11 +422,29 @@ Country_Code is null;
 Select Record_ID, Loan_Number, GREATEST(Original_Principal_Amount, Undisbursed_Amount, Disbursed_Amount) as max_value,
  LEAST(Original_Principal_Amount, Undisbursed_Amount, Disbursed_Amount)  as min_value
  From record_of_loans;
- 
- Select Record_ID, Loan_Number, GREATEST(102000000, Original_Principal_Amount) as TOP_value
- From record_of_loans;
- 
-  Select distinct GREATEST(102000000, Original_Principal_Amount) as TOP_value
+ --  Changes value if less to greater
+ Select Record_ID, Loan_Number, GREATEST(5000000, Original_Principal_Amount) as New_value
  From record_of_loans
- Order BY TOP_value asc
+ Order By New_value asc;
+ -- Changes the value if greater than the specified value to a smaller one
+  Select LEAST(999000000, Original_Principal_Amount) as New_value
+ From record_of_loans
+ Order BY New_value desc;
+ 
+-- Common Table Expressions (CTEs)
+ With FIX_Location AS (
+ SELECT Distinct Location_ID
+ FROM dim_location
+ WHERE Country IN ("Brazil", "Mexico")), 
+ AVG_Amount_date AS (
+ SELECT AVG(Original_Principal_Amount) AS AVG_Amount
+ FROM record_of_loans
+ WHERE date_format(str_to_date(Board_Approval_Date, '%c/%e/%Y'), '%Y') between '2009' and '2010')
+ SELECT Location_ID, Original_Principal_Amount, Board_Approval_Date
+ FROM record_of_loans
+ WHERE Location_ID IN (SELECT Distinct Location_ID from FIX_Location)
+ AND Original_Principal_Amount >= (SELECT Original_Principal_Amount from AVG_Amount_date)
+ ORDER BY Original_Principal_Amount desc;
+ 
+ 
 
