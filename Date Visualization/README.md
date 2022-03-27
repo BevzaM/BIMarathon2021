@@ -39,7 +39,7 @@ In the lower right corner, information is provided on the __Loan_Type__ and __Lo
 
 The __Reset button__ allows you to quickly cancel all filters.
 
-# Details Dashboard 
+# 2. Details Dashboard 
 
 This Dashboard gives the user more detailed information in the context of each country.
 
