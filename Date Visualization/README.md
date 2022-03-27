@@ -1,10 +1,10 @@
-
-# IBRD Data Analysis Project.
+# IBRD Data Analysis Dashboard.
 Welcome to the __IBRD Data Analysis Project__.  
 
-This project will be of interest to people who want to understand the work of the ___"International Bank for Reconstruction and Development"___ ([IBRD](https://en.wikipedia.org/wiki/International_Bank_for_Reconstruction_and_Development)) and find some answers by analyzing data on loans and grants issued.
+The second part of the IBRD Data Analysis Project is the creation of the Dashboard. 
 
-# Business Questions:
+The mission of which is to provide the stakeholders with the opportunity to find quick answers to questions, in an interactive mode.
+## Business Questions:
 * What is the volume of loans and grants issued, as well as their ratio?
 * Which countries were given these loans and in what volume?
 * How much funds are provided and how much of these funds are used?
@@ -13,19 +13,31 @@ This project will be of interest to people who want to understand the work of th
 * At what interest were loans issued and in what volume?
 * I think we will be able to discover a lot more during the analysis!)
 
- 
-## IBRD Statement of Loans (data)
-The analysis was based on information taken from the [official website](https://finances.worldbank.org/Loans-and-Credits/IBRD-Statement-of-Loans-Latest-Available-Snapshot/sfv5-tf7p) and Updated (___January 10, 2022___)  
-[Data_Dictionary](Data_Dictionary_-_IBRD_Statement_of_Loans_and_IDA_Statement_of_Credits_and_Grants.pdf) in the attachment.
+For comfortable interaction between stakeholders, the information is divided into __2 Dashboards__.
 
-To get answers with this database, I will use queries using MySQL. And to demonstrate the results of Tableau (interactive dashboards).  
-The main points of the process of finding answers will be documented and you can, if you wish, recreate them for yourself or tell me how to do it better!)
+# 1. Dashboard IBRD
+Its main goal is to answer the questions of stakeholders about the work of the ___"International Bank for Reconstruction and Development"___ ([IBRD](https://en.wikipedia.org/wiki/International_Bank_for_Reconstruction_and_Development)) and, more precisely, about the loans provided to the world.
 
-# Base on my dataset I create that date visualization.
-Contents two pages.
-1 page describes
-(Key words)
-* This KPI metrics found
-* find this relations and correlation between this and this ( two facts)
-* insights
-* you can filter by this and this, look this metrics, to measure, several adjustments (release version and date dashboard)
+By default, all filters are reset and we see the situation in the world and its indicators for January 10, 2022
+
+I suggest that you familiarize yourself with the main points of the work and visualization of this dashboard.
+
+3 filters have been created for the user to get more detailed answers:
+* __"YEAR(Board Approval Date)"__ - period selection
+* __"Region"__ - selection of regions or region with countries
+* __"Country"__ - select a list of countries or a specific country
+
+Depending on the settings in the online mode, the data on the __2 Dashboards__ will change.
+
+In the upper left corner, the table gives answers to questions related to the region and KPI metrics .
+
+In the upper right corner of the visualization of the world map with countries and % receipt of the volume of credit lines from the selected list.
+
+In the lower left corner is a visualization of a line graph, which shows the relations and correlation between amount of loans and time.
+
+In the lower right corner, information is provided on the __Types of loans__ and __Statusof loans__, depending on the selected criteria.
+
+The __Reset button__ allows you to quickly cancel all filters.
+
+# Details Dashboard 
+
