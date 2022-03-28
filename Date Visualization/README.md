@@ -71,6 +71,7 @@ __5.__ 70% of all issued loans have been paid by the current date, respectively 
 __6.__ According to the data provided, IBRD cooperates with 148 countries, but 189 countries are listed on the official website.
 
 189-148=41 countries, so these 41 countries or other commercial organizations are combined in "__World__" definition in "__OTHER__" region.
+
 __8.__ The highest interest rates fall on "World" and African countries.
 
 __9.__ 54.82% of the total amount of loans issued with an __interest rate marked__ as “__0%__”, which in fact, according to the Definition of the dictionary, contains several interest rates and does not give us complete answers when analyzing the data. Therefore, this indicator was __excluded__ from the calculation of __Min, AVG Interest rate__.
