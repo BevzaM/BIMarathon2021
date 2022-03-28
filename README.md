@@ -6,12 +6,12 @@ This project will be of interest to people who want to understand the work of th
 
 # Business Questions:
 * What is the volume of loans and grants issued, as well as their ratio?
-* Which countries were given these loans and in what volume?
+* Which countries were given these loans and what volume?
 * How much funds are provided and how much of these funds are used?
 * Are loans repaid on time?
 * Which countries are issued loans more often?
-* At what interest were loans issued and in what volume?
-* I think we will be able to discover a lot more during the analysis!)
+* What interest were loans issued and what volume?
+* I think we will be able to discover much more during the analysis!)
 
  
 ## IBRD Statement of Loans (data)
@@ -19,4 +19,4 @@ The analysis was based on information taken from the [official website](https://
 [Data_Dictionary](Data_Dictionary_-_IBRD_Statement_of_Loans_and_IDA_Statement_of_Credits_and_Grants.pdf) in the attachment.
 
 To get answers with this database, I will use queries using MySQL. And to demonstrate the results of Tableau (interactive dashboards).  
-The main points of the process of finding answers will be documented and you can, if you wish, recreate them for yourself or tell me how to do it better!)
+The main points of the process of finding answers will be documented and you can, if you wish, recreate them for yourself.
