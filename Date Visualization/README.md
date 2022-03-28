@@ -55,14 +55,14 @@ The lower half of the Dashboard displays a table with the details of each issued
 
 # My findings and conclusions
 
-* The peak volumes of loans granted are due to global economic crises and the Covid pandemic
-* The peak provision of loans in the context of countries occurs on global crises or local incidents in countries
-* The largest volumes of loans, as a rule, were provided to regions and countries, in particular, which are included in the TOP 30 countries with the largest population, with the exception of developed countries
-*  84.58% of all loans granted fall on 3 out of 13 types of loans
-   49.79% on Fixed Spread Loans (FSL)
-   18.33% on Currency Pooled Loans (CPL)
-   16.46% Single Currency Loans (SCL)
-* 70% of all issued loans have been paid by the current date, respectively 30% or $ 245 billion are in other statuses
-* According to the data provided, IBRD cooperates with 148 countries, but 189 countries are listed on the official website. Part of the issued loans is listed instead of the country "World". Perhaps these 41 countries or other commercial organizations are combined in this word
-* The highest interest rates fall on "World" and African countries.
-* 54.82% of the total amount of loans issued with an interest rate marked as “0%”, which in fact, according to the Definition of the dictionary, contains several interest rates and does not give us complete answers when analyzing the data. Therefore, this indicator was excluded from the calculation of Min, AVG Interest rate.
+1)  The peak volumes of loans granted are due to global economic crises and the Covid pandemic
+2)  The peak provision of loans in the context of countries occurs on global crises or local incidents in countries
+3) The largest volumes of loans, as a rule, were provided to regions and countries, in particular, which are included in the TOP 30 countries with the largest population, with the exception of developed countries
+4)  84.58% of all loans granted fall on 3 out of 13 types of loans: 
+* 49.79% on Fixed Spread Loans (FSL)
+* 18.33% on Currency Pooled Loans (CPL)
+* 16.46% Single Currency Loans (SCL)
+5) 70% of all issued loans have been paid by the current date, respectively 30% or $ 245 billion are in other statuses
+6) According to the data provided, IBRD cooperates with 148 countries, but 189 countries are listed on the official website. Part of the issued loans is listed instead of the country "World". Perhaps these 41 countries or other commercial organizations are combined in this word
+7) The highest interest rates fall on "World" and African countries.
+8) 54.82% of the total amount of loans issued with an interest rate marked as “0%”, which in fact, according to the Definition of the dictionary, contains several interest rates and does not give us complete answers when analyzing the data. Therefore, this indicator was excluded from the calculation of Min, AVG Interest rate.
