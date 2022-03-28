@@ -55,15 +55,22 @@ The lower half of the Dashboard displays a table with the details of each issued
 
 # My findings and conclusions
 
-__1.__ The peak volumes of loans granted are due to global economic crises and the Covid pandemic
-__2.__ The peak provision of loans in the context of countries occurs on global crises or local incidents in countries
-__3.__ The largest volumes of loans, as a rule, were provided to regions and countries, in particular, which are included in the TOP 30 countries with the largest population, with the exception of developed countries
+__1.__ The peak volumes of loans granted are due to global economic crises and the Covid pandemic.
+
+__2.__ The peak provision of loans in the context of countries occurs on global crises or local incidents in countries.
+
+__3.__ The largest volumes of loans, as a rule, were provided to regions and countries, in particular, which are included in the TOP 30 countries with the largest population, with the exception of developed countries.
+
 __4.__  84.58% of all loans granted fall on 3 out of 13 types of loans: 
 * 49.79% on Fixed Spread Loans (FSL)
 * 18.33% on Currency Pooled Loans (CPL)
 * 16.46% Single Currency Loans (SCL)
+
 __5.__ 70% of all issued loans have been paid by the current date, respectively 30% or $ 245 billion are in other statuses.
+
 __6.__ According to the data provided, IBRD cooperates with 148 countries, but 189 countries are listed on the official website.
+
 189-148=41 countries, so these 41 countries or other commercial organizations are combined in "__World__" definition in "__OTHER__" region.
 __8.__ The highest interest rates fall on "World" and African countries.
+
 __9.__ 54.82% of the total amount of loans issued with an __interest rate marked__ as “__0%__”, which in fact, according to the Definition of the dictionary, contains several interest rates and does not give us complete answers when analyzing the data. Therefore, this indicator was __excluded__ from the calculation of __Min, AVG Interest rate__.
