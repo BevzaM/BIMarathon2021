@@ -53,4 +53,6 @@ In the upper right corner is the “Interest rate classification” pie chart, w
 
 The lower half of the Dashboard displays a table with the details of each issued loan.
 
+# My findings and conclusions
+
 
