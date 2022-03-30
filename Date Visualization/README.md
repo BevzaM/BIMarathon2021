@@ -1,9 +1,10 @@
 # IBRD Data Analysis Dashboard.
 Welcome to the __IBRD Data Analysis Project__.  
 
-The second part of the IBRD Data Analysis Project is the creation of the Dashboard. 
+The second part of the IBRD Data Analysis Project is building a data analysis dashboard to highlight major insights and metrics.
 
-Which mission is to provide the stakeholders with the opportunity to find quick answers to questions, in an interactive mode.
+Mission: provide BI solution with Tableau Dashboard in support of potential stakeholders to support their needs with KPI metrics and key points about World banking loans.
+
 ## Business Questions:
 * What is the volume of loans and grants issued, as well as their ratio?
 * Which countries were given these loans and what volume?
@@ -16,7 +17,7 @@ Which mission is to provide the stakeholders with the opportunity to find quick 
 For comfortable interaction between stakeholders, the information is divided into 2 Dashboards: [Dashboard IBRD](https://public.tableau.com/app/profile/mykhailo2589/viz/DashboardIBRDStatementofLoansandIDAStatement/DashboardIBRD?publish=yes) and [Details Dashboard](https://public.tableau.com/app/profile/mykhailo2589/viz/DashboardIBRDStatementofLoansandIDAStatement/DashboardIBRD?publish=yes).
 
 # 1. Dashboard IBRD
-Its main goal is to answer the questions of stakeholders about the work of the ___"International Bank for Reconstruction and Development"___ ([IBRD](https://en.wikipedia.org/wiki/International_Bank_for_Reconstruction_and_Development)) and, more precisely, about the loans provided to the world.
+The main goal is to answer the questions of stakeholders about the work of the ___"International Bank for Reconstruction and Development"___ ([IBRD](https://en.wikipedia.org/wiki/International_Bank_for_Reconstruction_and_Development)) and, more precisely, about the loans provided to the world.
 
 By default, all filters are reset and we see the situation in the world and its indicators for January 10, 2022
 
@@ -29,13 +30,17 @@ I suggest you to familiarize yourself with the main points of the work and visua
 
 Depending on the settings in the online mode, the data on the __2 Dashboards__ will change.
 
-In the upper left corner, the table gives answers to questions related to the region and KPI metrics .
-
-In the upper right corner of the visualization of the world map with countries and % receipt of the volume of credit lines from the selected list.
-
-In the lower left corner is a visualization of a line graph, which shows the relations and correlation between amount of loans and time.
-
-In the lower right corner, information is provided on the __Loan_Type__ and __Loan_Status__, depending on the selected criteria.
+* __Original Principal Amount ($, M)__ - The original US dollar amount of the loan that is committed and approved. Measured in $. M - meaning a million. *Aggregate Sum*.
+* __% Principal Amount__ - % of total of *"Original Principal Amount ($, M)"*
+* __Country (count)__ - count of country
+* __Approved Loan (count)__ - count of approved loan
+* __Approved Loan (%)__  % of total of "count of approved loan'
+* __MIN Interest Rate__ - min interest rate, "excluded 0" (P.S. For loans that could have more than one interest rate the interest rate is shown as “0”.)
+* __AVG Interest Rate__ - average interest rate, "excluded 0" (P.S. For loans that could have more than one interest rate the interest rate is shown as “0”.)
+* __MAX Interest Rate__ maximum interest rate
+* __% of Total "Original Principal Amount__ - % of total of *"Original Principal Amount ($, M)"* 
+* __Loan_Type__ - detailed description of each type in the folder *Project Definition*
+* __Loan_Status__ -  detailed description of each status in the folder *Project Definition*
 
 The __Reset button__ allows you to quickly cancel all filters.
 
@@ -45,13 +50,13 @@ This Dashboard gives the user more detailed information in the context of each c
 
 This Dashboard is dependent on filtering on the first Dashboard IBRD.
 
-In addition, for convenience, an __“Interest rate classification”__ was created and a __filter__, respectively.
-
-In the upper left corner, the main KPIs for countries.
-
-In the upper right corner is the “Interest rate classification” pie chart, which displays the number of loans issued depending on the classifier.
-
-The lower half of the Dashboard displays a table with the details of each issued loan.
+* __Original Principal Amount ($, M)__ - The original US dollar amount of the loan that is committed and approved. Measured in $. M - meaning a million. *Aggregate Sum*.
+* __MIN Interest Rate__ - Minimum interest rate, "excluded 0" (P.S. For loans that could have more than one interest rate the interest rate is shown as “0”.)
+* __AVG Interest Rate__ - Average interest rate, "excluded 0" (P.S. For loans that could have more than one interest rate the interest rate is shown as “0”.)
+* __MAX Interest Rate__ maximum interest rate
+* __“Interest rate classification”__  - The conditional classification was created by me. The name of each group corresponds to its meaning
+* __category share__ - % of total of *"Original Principal Amount ($, M)"* from "Pie chart"
+* Chart __"More_Details"__ - Detailed description of columns in the folder *Project Definition*
 
 # My findings and conclusions
 
