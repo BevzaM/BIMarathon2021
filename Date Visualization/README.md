@@ -3,7 +3,8 @@ Welcome to the __IBRD Data Analysis Project__.
 
 The second part of the IBRD Data Analysis Project is building a data analysis dashboard to highlight major insights and metrics.
 
-Which mission is to provide the stakeholders with the opportunity to find quick answers to questions, in an interactive mode.
+Mission: provide BI solution with Tableau Dashboard in support of potential stakeholders to support their needs with KPI metrics and key points about World banking loans.
+
 ## Business Questions:
 * What is the volume of loans and grants issued, as well as their ratio?
 * Which countries were given these loans and what volume?
@@ -16,7 +17,7 @@ Which mission is to provide the stakeholders with the opportunity to find quick 
 For comfortable interaction between stakeholders, the information is divided into 2 Dashboards: [Dashboard IBRD](https://public.tableau.com/app/profile/mykhailo2589/viz/DashboardIBRDStatementofLoansandIDAStatement/DashboardIBRD?publish=yes) and [Details Dashboard](https://public.tableau.com/app/profile/mykhailo2589/viz/DashboardIBRDStatementofLoansandIDAStatement/DashboardIBRD?publish=yes).
 
 # 1. Dashboard IBRD
-Its main goal is to answer the questions of stakeholders about the work of the ___"International Bank for Reconstruction and Development"___ ([IBRD](https://en.wikipedia.org/wiki/International_Bank_for_Reconstruction_and_Development)) and, more precisely, about the loans provided to the world.
+The main goal is to answer the questions of stakeholders about the work of the ___"International Bank for Reconstruction and Development"___ ([IBRD](https://en.wikipedia.org/wiki/International_Bank_for_Reconstruction_and_Development)) and, more precisely, about the loans provided to the world.
 
 By default, all filters are reset and we see the situation in the world and its indicators for January 10, 2022
 
