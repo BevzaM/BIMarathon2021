@@ -1,7 +1,7 @@
 # IBRD Data Analysis Dashboard.
 Welcome to the __IBRD Data Analysis Project__.  
 
-The second part of the IBRD Data Analysis Project is the creation of the Dashboard. 
+The second part of the IBRD Data Analysis Project is building a data analysis dashboard to highlight major insights and metrics.
 
 Which mission is to provide the stakeholders with the opportunity to find quick answers to questions, in an interactive mode.
 ## Business Questions:
